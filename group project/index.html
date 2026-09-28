@@ -3,8 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="FitBuddy helps you generate a personalized 7-day fitness plan based on your goals, age, weight, and experience level.">
 <title>FitBuddy - AI Fitness Plan Generator</title>
 <style>
+:root {
+  --bg-1: #f4f1ff;
+  --bg-2: #dff7ff;
+  --bg-3: #e9ffe8;
+  --primary: #5b4ef5;
+  --secondary: #ff6b6b;
+  --accent: #22c55e;
+  --accent-dark: #15803d;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --card: rgba(255, 255, 255, 0.92);
+  --shadow: rgba(91, 78, 245, 0.18);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -13,90 +28,133 @@
 }
 
 body {
-  background: linear-gradient(135deg, #d9fdd3, #d8efff);
+  background: linear-gradient(135deg, var(--bg-1), var(--bg-2) 45%, var(--bg-3));
   min-height: 100vh;
-  padding: 30px;
+  padding: 30px 20px;
+  color: var(--text);
 }
 
 .container {
-  max-width: 700px;
-  margin: auto;
+  max-width: 760px;
+  margin: 0 auto;
 }
 
 h1 {
   text-align: center;
-  font-size: 40px;
-  color: #15803d;
-  margin-bottom: 5px;
+  font-size: clamp(2.2rem, 5vw, 3.3rem);
+  color: var(--primary);
+  margin-bottom: 8px;
 }
 
 .subtitle {
   text-align: center;
-  color: #555;
-  margin-bottom: 25px;
+  color: var(--muted);
+  margin-bottom: 28px;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
 }
 
 .card {
-  background: white;
+  background: var(--card);
   padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+  border-radius: 24px;
+  box-shadow: 0 18px 40px var(--shadow);
+  border: 1px solid rgba(91, 78, 245, 0.08);
+  backdrop-filter: blur(5px);
 }
 
 label {
   display: block;
-  margin-top: 15px;
-  margin-bottom: 7px;
-  font-weight: bold;
+  margin-top: 18px;
+  margin-bottom: 8px;
+  font-weight: 700;
+  color: var(--text);
 }
 
 input, select {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  padding: 13px 14px;
+  border: 1.5px solid rgba(91, 78, 245, 0.15);
+  border-radius: 12px;
   font-size: 16px;
+  background: #fff;
+  color: var(--text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(91, 78, 245, 0.12);
 }
 
 button {
   width: 100%;
-  margin-top: 25px;
-  padding: 14px;
+  margin-top: 28px;
+  padding: 16px 20px;
   border: none;
-  border-radius: 8px;
-  background: #16a34a;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary), #7c6bff);
   color: white;
   font-size: 17px;
-  font-weight: bold;
+  font-weight: 700;
   cursor: pointer;
+  box-shadow: 0 12px 24px rgba(91, 78, 245, 0.28);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
 button:hover {
-  background: #15803d;
+  transform: translateY(-1px);
+  box-shadow: 0 16px 28px rgba(91, 78, 245, 0.32);
+  filter: brightness(1.03);
 }
 
 #result {
-  margin-top: 25px;
+  margin-top: 28px;
 }
 
 .day {
-  background: white;
-  margin-top: 15px;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  background: linear-gradient(135deg, #ffffff, #f7f7ff);
+  margin-top: 16px;
+  padding: 20px 22px;
+  border-radius: 16px;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+  border-left: 6px solid var(--secondary);
 }
 
 .day h3 {
-  color: #15803d;
+  color: var(--primary);
   margin-bottom: 8px;
+  font-size: 1.15rem;
 }
 
 .user-info {
-  background: #f0fdf4;
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 15px;
+  background: linear-gradient(135deg, #eefdf5, #eff6ff);
+  padding: 18px 20px;
+  border-radius: 16px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(34, 197, 94, 0.1);
+}
+
+.user-info h2,
+#result h2 {
+  color: var(--accent-dark);
+  margin-bottom: 10px;
+}
+
+.user-info p {
+  margin: 6px 0;
+  color: var(--text);
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 20px 14px;
+  }
+
+  .card {
+    padding: 22px 18px;
+  }
 }
 </style>
 </head>
@@ -142,7 +200,7 @@ button:hover {
     <button onclick="generatePlan()">Generate 7-Day Plan</button>
   </div>
 
-  <div id="result"></div>
+  <div id="result" aria-live="polite"></div>
 </div>
 
 <script>
