@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitBuddy - AI Fitness Plan Generator</title>
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #d9fdd3, #d8efff);
+  min-height: 100vh;
+  padding: 30px;
+}
+
+.container {
+  max-width: 700px;
+  margin: auto;
+}
+
+h1 {
+  text-align: center;
+  font-size: 40px;
+  color: #15803d;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 7px;
+  font-weight: bold;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  margin-top: 25px;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background: #16a34a;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #15803d;
+}
+
+#result {
+  margin-top: 25px;
+}
+
+.day {
+  background: white;
+  margin-top: 15px;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.day h3 {
+  color: #15803d;
+  margin-bottom: 8px;
+}
+
+.user-info {
+  background: #f0fdf4;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>💪 FitBuddy</h1>
+  <p class="subtitle">AI Fitness Plan Generator</p>
+
+  <div class="card">
+    <label for="name">Name</label>
+    <input type="text" id="name" placeholder="Enter your name">
+
+    <label for="age">Age</label>
+    <input type="number" id="age" placeholder="Enter your age">
+
+    <label for="weight">Weight (kg)</label>
+    <input type="number" id="weight" placeholder="Enter your weight">
+
+    <label for="goal">Fitness Goal</label>
+    <select id="goal">
+      <option value="Weight Loss">Weight Loss</option>
+      <option value="Muscle Gain">Muscle Gain</option>
+      <option value="General Fitness">General Fitness</option>
+      <option value="Flexibility">Flexibility</option>
+    </select>
+
+    <label for="intensity">Workout Intensity</label>
+    <select id="intensity">
+      <option value="Low">Low</option>
+      <option value="Medium">Medium</option>
+      <option value="High">High</option>
+    </select>
+
+    <label for="experience">Experience Level</label>
+    <select id="experience">
+      <option value="Beginner">Beginner</option>
+      <option value="Intermediate">Intermediate</option>
+      <option value="Advanced">Advanced</option>
+    </select>
+
+    <button onclick="generatePlan()">Generate 7-Day Plan</button>
+  </div>
+
+  <div id="result"></div>
+</div>
+
+<script>
+function generatePlan() {
+  let name = document.getElementById("name").value;
+  let age = document.getElementById("age").value;
+  let weight = document.getElementById("weight").value;
+  let goal = document.getElementById("goal").value;
+  let intensity = document.getElementById("intensity").value;
+  let experience = document.getElementById("experience").value;
+
+  if (name === "" || age === "" || weight === "") {
+    alert("Please fill all the details.");
+    return;
+  }
+
+  let workouts = [
+    ["Day 1", "Full Body Workout", "Squats, wall push-ups, lunges and plank."],
+    ["Day 2", "Cardio", "Walking, light jogging and stretching."],
+    ["Day 3", "Upper Body", "Wall push-ups, arm raises and shoulder exercises."],
+    ["Day 4", "Active Recovery", "Light walking and gentle stretching."],
+    ["Day 5", "Lower Body", "Squats, lunges and glute bridges."],
+    ["Day 6", "Core Workout", "Plank, bird-dog and gentle core exercises."],
+    ["Day 7", "Rest Day", "Rest and gentle stretching."]
+  ];
+
+  let output = `
+    <div class="user-info">
+      <h2>Hello ${name}! 👋</h2>
+      <p><b>Age:</b> ${age}</p>
+      <p><b>Weight:</b> ${weight} kg</p>
+      <p><b>Goal:</b> ${goal}</p>
+      <p><b>Intensity:</b> ${intensity}</p>
+      <p><b>Experience:</b> ${experience}</p>
+    </div>
+
+    <h2>📅 Your 7-Day Fitness Plan</h2>
+  `;
+
+  workouts.forEach(function(workout) {
+    output += `
+      <div class="day">
+        <h3>${workout[0]} - ${workout[1]}</h3>
+        <p>${workout[2]}</p>
+      </div>
+    `;
+  });
+
+  document.getElementById("result").innerHTML = output;
+}
+</script>
+
+</body>
+</html>
